@@ -1,6 +1,6 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
-import { LoginForm } from "@/components/login-form"
+import { ForgotPasswordForm } from "@/forms/forgot-password"
 
 export default function LoginPage() {
   return (
@@ -12,7 +12,7 @@ export default function LoginPage() {
           </div>
           Weybre AI
         </a>
-        <LoginForm />
+        <ForgotPasswordForm />
       </div>
     </div>
   )
