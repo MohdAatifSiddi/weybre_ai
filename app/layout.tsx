@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import {  Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import Providers from "@/context/providers";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
 
 export const metadata: Metadata = {
   title: "Weybre AI",
@@ -21,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistMono.variable} ${geistMono.className} antialiased`}
+        className={`${geistSans.variable} ${geistSans.className} antialiased`}
       >
-      <Providers>{children}</Providers>
+       <Providers>{children}</Providers>
       </body>
     </html>
   );

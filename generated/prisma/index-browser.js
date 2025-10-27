@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.17.1
- * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
+ * Prisma Client JS version: 6.18.0
+ * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
  */
 Prisma.prismaVersion = {
-  client: "6.17.1",
-  engine: "272a37d34178c2894197e17273bf937f25acdeac"
+  client: "6.18.0",
+  engine: "34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,16 +120,12 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.NoteScalarFieldEnum = {
-  id: 'id',
-  text: 'text'
-};
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
+  stripeCustomerId: 'stripeCustomerId',
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -148,8 +144,8 @@ exports.Prisma.SessionScalarFieldEnum = {
 
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
-  accountId: 'accountId',
-  providerId: 'providerId',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
   userId: 'userId',
   accessToken: 'accessToken',
   refreshToken: 'refreshToken',
@@ -162,18 +158,54 @@ exports.Prisma.AccountScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.VerificationScalarFieldEnum = {
+exports.Prisma.NoteScalarFieldEnum = {
   id: 'id',
-  identifier: 'identifier',
-  value: 'value',
-  expiresAt: 'expiresAt',
+  text: 'text',
+  content: 'content',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.ChatScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  parts: 'parts',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chatId: 'chatId'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  plan: 'plan',
+  userId: 'userId',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  status: 'status',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  seats: 'seats',
+  trialStart: 'trialStart',
+  trialEnd: 'trialEnd'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -186,13 +218,31 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ASSISTANT: 'ASSISTANT',
+  SYSTEM: 'SYSTEM'
+};
+
+exports.Plan = exports.$Enums.Plan = {
+  FREE: 'FREE',
+  PLUS: 'PLUS',
+  PREMIUM: 'PREMIUM'
+};
 
 exports.Prisma.ModelName = {
-  Note: 'Note',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Note: 'Note',
+  Chat: 'Chat',
+  Message: 'Message',
+  Subscription: 'Subscription'
 };
 
 /**

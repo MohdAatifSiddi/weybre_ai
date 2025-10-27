@@ -1,7 +1,7 @@
 import React from "react";
 
-const AppSidebar = () => {
+const AppSidebar= () => {
     return <div>AppSidebar</div>
-}
+};
 
 export default AppSidebar;
