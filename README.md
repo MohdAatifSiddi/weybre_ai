@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Legal Engine
+
+A full-stack AI legal infrastructure built for lawyers, law firms, businesses, governments, and everyday users. The platform automates legal research, drafting, compliance, filings, and structured documentation using advanced legal-domain AI models.
+
+## Overview
+AI Legal Engine is designed as the operating system for legal and regulatory work. It serves 60,000+ lawyers, 6,000+ law firms, more than 100,000 general users, and active government deployments. The system provides fast, accurate, and trustworthy legal intelligence without relying on third-party AI APIs.
+
+## Key Features
+- AI-powered legal research with citation accuracy
+- Automated drafting for contracts, notices, petitions, and filings
+- Compliance and regulatory analysis for businesses
+- Case preparation tools for advocates and legal teams
+- Structured workflows for complaints, grievances, and documentation
+- Full independence through in-house Legal AGI model development
+
+## Technology Stack
+- Next.js 14 (App Router)
+- TypeScript
+- Custom Legal AGI models and embeddings
+- Secure data pipelines for enterprise and government clients
+- Scalable internal GPU infrastructure
+
+## Use Cases
+- Lawyers and advocates performing research and drafting
+- Law firms managing case workflows
+- Businesses handling compliance and documentation
+- Government departments processing legal and administrative tasks
+- Citizens filing complaints, queries, or legal documents
+
+## Mission
+To build the global legal intelligence layer––a system that improves speed, clarity, fairness, and access across law, governance, and business.
 
 ## Getting Started
-
-First, run the development server:
-
+Clone the repository and install dependencies:
+```bash
+git clone <repo-url>
+cd ai-legal-engine
+npm install
+```
+Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
+Create a `.env.local` file and include your configuration:
+```bash
+DATABASE_URL=
+INTERNAL_API_KEY=
+JWT_SECRET=
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
+The platform supports deployment on Vercel, containerized environments, and custom GPU infrastructure.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+Proprietary. All rights reserved.
