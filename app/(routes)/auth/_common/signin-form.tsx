@@ -26,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuthToken } from "@/hooks/use-auth-token";
 
 const signInSchema = z.object({
   email: z.email("Invalid email"),
@@ -36,6 +37,7 @@ type SignInFormValues = z.infer<typeof signInSchema>;
 
 const SignInForm = () => {
   const router = useRouter();
+  const {setBearerToken} = useAuthToken();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SignInFormValues>({
@@ -54,10 +56,15 @@ const SignInForm = () => {
         callbackURL: "/home",
       },
       {
-        onRequest: () => setIsLoading(true),
-        onSuccess: () => {
-          setIsLoading(false);
+        onRequest: () => { setIsLoading(true); },
+        onSuccess: (ctx) => {
+          const token = ctx.response.headers.get("set-auth-token");
+          if (token) {
+            setBearerToken(token);
+          }
           router.replace("/home");
+          setIsLoading(false);
+
         },
         onError: (ctx) => {
           setIsLoading(false);
