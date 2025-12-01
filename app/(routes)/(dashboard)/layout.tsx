@@ -6,6 +6,7 @@ import { RiLoader5Fill } from "@remixicon/react";
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/sidebar";
+import MainContent from "./_common/main-content";
 
 export default async function DashboardLayout({children,}:{children: React.ReactNode;}) {
     const session = await auth.api.getSession({
@@ -24,7 +25,9 @@ export default async function DashboardLayout({children,}:{children: React.React
                 <SidebarProvider>
                     <AppSidebar />
                     <SidebarInset className="relative overflow-x-hidden pt-0">
-                        {children}
+                        <MainContent>
+                            {children}
+                        </MainContent>
                     </SidebarInset>
                 </SidebarProvider>
             </NuqsAdapter>
