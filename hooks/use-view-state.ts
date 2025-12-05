@@ -1,16 +1,18 @@
-import { parseAsBoolean, useQueryState } from "nuqs";
+import { useQueryState } from "nuqs";
 
 const useViewState = () => {
-    const [isChatView, _setIsChatView] = useQueryState(
-        "view",
-        parseAsBoolean.withDefault(false).withOptions({
-           shallow: false,
-        })
-    );
-    const setIsChatView = (val: boolean) => _setIsChatView(null);
-    const clearChatView = () => _setIsChatView(null);
+    const [isChatView, _setIsChatView] = useQueryState("view", {
+        defaultValue: false,
+        parse: (value) => value === "true",
+        serialize: (value) => (value ? "true" : "false"),
+        shallow: false,
+    });
+    
+    const setIsChatView = (val: boolean) => _setIsChatView(val);
+    const clearChatView = () => _setIsChatView(false);
+    
     return {
-        isChatView,
+        isChatView: isChatView ?? false,
         setIsChatView,
         clearChatView,
     };

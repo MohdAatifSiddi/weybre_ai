@@ -2,19 +2,19 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface LocalChatState {
-    localModeId: string;
+    localModelId: string;
     isHistoryOpen: boolean;
     onToggleHistory: () => void;
-    setLocalModeId: (id: string) => void;
+    setLocalModelId: (id: string) => void;
 }
 
 export const useLocalChat = create<LocalChatState>()(
     persist(
         (set, get) => ({
-            localModeId: "",
+            localModelId: "",
             isHistoryOpen: false,
             onToggleHistory: () => set({ isHistoryOpen: !get().isHistoryOpen }),
-            setLocalModeId: (id: string) => set({ localModeId: id }),
+            setLocalModelId: (id: string) => set({ localModelId: id }),
         }),
         {
             name: "local-chat",

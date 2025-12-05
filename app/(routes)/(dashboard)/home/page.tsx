@@ -1,6 +1,8 @@
-import React from "react";
-const Home = () => {
-    return <div>Home</div>
-}
+import MainSection from "./_common/main-section";
+import { generateUUID } from "@/lib/utils";
 
-export default Home;
+export default async function Home() {
+    const id = generateUUID();
+
+    return <MainSection key={id} id={id} />;
+}

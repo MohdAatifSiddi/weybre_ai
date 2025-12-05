@@ -1,9 +1,12 @@
+"use client";
+
 import useViewState from "@/hooks/use-view-state"
 import Header from "../../_common/header";
-import ChatInterface from "@/components/chat-interface";
+import ChatInterface from "@/components/chat/index";
 import RecentNotes from "./recent-notes";
 import { cn } from "@/lib/utils";
 import { RiEmotionHappyFill } from "@remixicon/react";
+
 const MainSection = (props: { id: string }) => {
     const { isChatView } = useViewState();
     return (
@@ -20,7 +23,7 @@ const MainSection = (props: { id: string }) => {
                         </div>
                 )}
                 <ChatInterface
-                 id={props.id}
+                 chatId={props.id}
                  initialMessages={[]}
                  initialLoading={false}
                  onlyInput={!isChatView} />

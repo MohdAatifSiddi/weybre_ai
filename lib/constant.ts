@@ -1,5 +1,3 @@
-import { features } from "process";
-
 export const PLAN_ENUM = {
     FREE: "free",
     PLUS: "plus",
@@ -12,8 +10,8 @@ export type PaidPlanEnumType = Exclude<PlanEnumType, "free">;
 
 export const UPGRADEABLE_PLANS = [PLAN_ENUM.PLUS, PLAN_ENUM.PREMIUM];
 
-const PLUS_PRICE_ID = process.env.STRIPE_PLUS_PLAN_ID!;
-const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PLAN_ID!;
+const PLUS_PRICE_ID = process.env.STRIPE_PLUS_PLAN_ID || "";
+const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PLAN_ID || "";
 
 export const PLANS = [
     {
@@ -66,6 +64,6 @@ export const PLANS = [
         ],
         limits: {
             generations: Infinity,
-        }
-    }
-]
+        },
+    },
+] as const;

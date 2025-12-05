@@ -1,8 +1,9 @@
 import { checkGenerationLimit } from "@/app/actions/action";
 import { auth } from "@/lib/auth";
-import { PLAN_ENUM } from "@/lib/constant";
+import { PLAN_ENUM, PLANS } from "@/lib/constant";
 import { getAuthUser } from "@/lib/hono/hono-middleware";
 import prisma from "@/lib/prisma";
+import { stripeClient } from "@/lib/stripe";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { success, z } from "zod";
@@ -34,20 +35,50 @@ export const subscriptionRoute = new Hono()
                     message: `You are already on the ${body.plan} plan`,
                 });
             }
-            const data = await auth.api.upgradeSubscription({
-                body: {
-                    plan: body.plan,
-                    successUrl: `${body.callbackUrl}?success=true`,
-                    cancelUrl: `${body.callbackUrl}?error=true`,
-                    disableRedirect: true,
-                    ...(existingSubscription?.status === "active" && existingSubscription.stripeSubscriptionId ? { subscriptionId: existingSubscription.stripeSubscriptionId } : {}),
-                },
-                headers: c.req.raw.headers,
-            });
-            return c.json({
-                success: true,
-                checkoutUrl: data.url,
-            });
+
+            // Find the plan details
+            const plan = PLANS.find(p => p.name === body.plan);
+            if (!plan || !plan.priceId) {
+                throw new HTTPException(400, {
+                    message: "Invalid plan or price ID not configured",
+                });
+            }
+
+            // Create or update Stripe checkout session
+            if (existingSubscription?.stripeSubscriptionId) {
+                // Update existing subscription
+                const session = await stripeClient.billingPortal.sessions.create({
+                    customer: existingSubscription.stripeCustomerId!,
+                    return_url: body.callbackUrl,
+                });
+                return c.json({
+                    success: true,
+                    checkoutUrl: session.url!,
+                });
+            } else {
+                // Create new subscription checkout
+                const session = await stripeClient.checkout.sessions.create({
+                    customer: existingSubscription?.stripeCustomerId || undefined,
+                    mode: 'subscription',
+                    payment_method_types: ['card'],
+                    line_items: [
+                        {
+                            price: plan.priceId,
+                            quantity: 1,
+                        },
+                    ],
+                    success_url: `${body.callbackUrl}?success=true`,
+                    cancel_url: `${body.callbackUrl}?error=true`,
+                    metadata: {
+                        userId: user.id,
+                        plan: body.plan,
+                    },
+                });
+                return c.json({
+                    success: true,
+                    checkoutUrl: session.url!,
+                });
+            }
         } catch (error: any) {
             console.log(error);
             if (error instanceof HTTPException) {
