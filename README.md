@@ -13,43 +13,9 @@ AI Legal Engine is the emerging operating system for law, governance, and decisi
 - Structured workflows for complaints, grievances, and documentation
 - Full independence through in-house Legal AGI model development
 
-## Technology Stack
-- Next.js 14 (App Router)
-- TypeScript
-- Custom Legal AGI models and embeddings
-- Secure data pipelines for enterprise and government clients
-- Scalable internal GPU infrastructure
-
-## Use Cases
-- Lawyers and advocates performing research and drafting
-- Law firms managing case workflows
-- Businesses handling compliance and documentation
-- Government departments processing legal and administrative tasks
-- Citizens filing complaints, queries, or legal documents
 
 ## Mission
 To build the global legal intelligence layer––a system that improves speed, clarity, fairness, and access across law, governance, and business.
-
-## Getting Started
-Clone the repository and install dependencies:
-```bash
-git clone <repo-url>
-cd ai-legal-engine
-npm install
-```
-Run the development server:
-```bash
-npm run dev
-```
-
-## Environment Variables
-Create a `.env.local` file and include your configuration:
-```bash
-DATABASE_URL=
-INTERNAL_API_KEY=
-JWT_SECRET=
-```
-
 ## Deployment
 The platform supports deployment on Vercel, containerized environments, and custom GPU infrastructure.
 
