@@ -7,7 +7,14 @@ import { ToolTypeEnum } from "@/lib/ai/tools/constant";
 import { NoteCardPreview, NoteItemPreview } from "./tool-note-preview";
 import { SearchExtractPreview } from "./tool-search-extract-preview";
 
-const formatToolName = (type: string) => type.replace("tool-", "");
+const formatToolName = (type?: string | null) => {
+  // Ensure type is defined and is a string before calling replace
+  if (!type || typeof type !== 'string' || type.trim() === '') {
+    console.warn('Invalid tool type received:', type);
+    return '';
+  }
+  return type.replace("tool-", "");
+};
 
 const ToolLoadingIndicator = React.memo(
   ({ loadingText }: { loadingText: string }) => {
@@ -86,81 +93,81 @@ const toolRenders: Record<ToolUIPart["type"], (output: any, input: any) => React
   },
   [ToolTypeEnum.ExtractWebUrl]: (output, input) => {
     return (
-        <SearchExtractPreview 
-         type="extractWebUrl"
-         input={input}
-         output={output}        
-        />
+      <SearchExtractPreview
+        type="extractWebUrl"
+        input={input}
+        output={output}
+      />
     );
   },
 };
 
 interface ToolCallProps {
-    toolCallId: string;
-    type: ToolUIPart["type"];
-    state: ToolUIPart["state"];
-    output?: any;
-    input?: any;
-    errorText?: string;
-    isLoading: boolean;
+  toolCallId: string;
+  type: ToolUIPart["type"];
+  state: ToolUIPart["state"];
+  output?: any;
+  input?: any;
+  errorText?: string;
+  isLoading: boolean;
 }
 
 const ToolCall: React.FC<ToolCallProps> = ({
-    isLoading,
-    type,
-    output,
-    state,
-    input,
-    errorText,
+  isLoading,
+  type,
+  output,
+  state,
+  input,
+  errorText,
 }) => {
-    const toolName = formatToolName(type);
+  const toolName = formatToolName(type);
 
-    const { text, icon } = getToolStatus(toolName, state, output);
+  const { text, icon } = getToolStatus(toolName, state, output);
 
-    console.log(type, "type");
-    console.log(output, "output");
-    console.log(state, "state");
-    console.log(input, "input");
+  console.log(type, "type");
+  console.log(output, "output");
+  console.log(state, "state");
+  console.log(input, "input");
 
 
-    const renderOutput = () => {
-        if (state === "output-available") {
-            const renderer = toolRenders[type];
-            return renderer ? (
-                renderer(output, input)
-            ) : (
-                <div className="mt-2">{JSON.stringify(output)}</div>
-            );
-        }
-
-        if (state === "output-error") {
-            return <div className="text-destructive">{errorText}</div>
-        }
-
-        return null;
-    };
-    if (isLoading && (state === "input-streaming" || state === "input-available")) {
-        return <ToolLoadingIndicator loadingText={text} />;
-    }
-    if (type === ToolTypeEnum.CreateNote) {
-        return (
-            <>
-            <ToolHeader text={text} icon={icon} collapsible={false} />
-            <div>{renderOutput()}</div>
-            </>
-        );
+  const renderOutput = () => {
+    if (state === "output-available") {
+      const renderer = toolRenders[type];
+      return renderer ? (
+        renderer(output, input)
+      ) : (
+        <div className="mt-2">{JSON.stringify(output)}</div>
+      );
     }
 
+    if (state === "output-error") {
+      return <div className="text-destructive">{errorText}</div>
+    }
+
+    return null;
+  };
+  if (isLoading && (state === "input-streaming" || state === "input-available")) {
+    return <ToolLoadingIndicator loadingText={text} />;
+  }
+  if (type === ToolTypeEnum.CreateNote) {
     return (
-        <>
-        <Collapsible defaultOpen={true}>
-            <ToolHeader text={text} icon={icon} collapsible />
-            <CollapsibleContent>
-                {renderOutput()}
-            </CollapsibleContent>
-        </Collapsible>
-        </>
-    )
+      <>
+        <ToolHeader text={text} icon={icon} collapsible={false} />
+        <div>{renderOutput()}</div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Collapsible defaultOpen={true}>
+        <ToolHeader text={text} icon={icon} collapsible />
+        <CollapsibleContent>
+          {renderOutput()}
+        </CollapsibleContent>
+      </Collapsible>
+    </>
+  )
 }
 
 export default ToolCall;

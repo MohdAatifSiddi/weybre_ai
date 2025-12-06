@@ -19,6 +19,7 @@ export const PLANS = [
         name: PLAN_ENUM.FREE,
         price: 0,
         priceId: undefined,
+        description: "Perfect for getting started with AI-powered note-taking",
         features: [
             "20 AI generations per month",
             "Basic Support",
@@ -36,6 +37,7 @@ export const PLANS = [
         name: PLAN_ENUM.PLUS,
         price: 12,
         priceId: PLUS_PRICE_ID,
+        description: "Ideal for individuals and professionals who need more power",
         features: [
             "300 AI generations per month",
             "Priority Support",
@@ -54,6 +56,7 @@ export const PLANS = [
         name: PLAN_ENUM.PREMIUM,
         price: 24,
         priceId: PREMIUM_PRICE_ID,
+        description: "Maximum productivity with unlimited access to all features",
         features: [
             "Unlimited AI Generations",
             "Unlimited note creations",

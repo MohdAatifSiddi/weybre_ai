@@ -27,6 +27,7 @@ model User {
   notes         Note[]
   Chat          Chat[]
   subscriptions     Subscription[]
+  stripeCustomerId  String?
 
   @@unique([email])
   @@map("user")

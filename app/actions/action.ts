@@ -69,12 +69,11 @@ export async function checkGenerationLimit(userId: string) {
             status: "active",
         },
     });
-    if (!subscription) {
-        throw new HTTPException(400, {
-            message: "No subscription found",
-        });
-    }
-    const plan = PLANS.find((p) => p.name === subscription.plan);
+
+    // Use free plan if no subscription found
+    const planName = subscription?.plan || PLAN_ENUM.FREE;
+    const plan = PLANS.find((p) => p.name === planName);
+
     if (!plan) {
         throw new HTTPException(400, {
             message: "Invalid subscription plan",
@@ -95,8 +94,8 @@ export async function checkGenerationLimit(userId: string) {
         },
     });
     const isAllowed =
-      plan.limits.generations === Infinity ||
-      generationCount < plan.limits.generations;
+        plan.limits.generations === Infinity ||
+        generationCount < plan.limits.generations;
 
     const maxLimit = Math.max(0, plan.limits.generations - generationCount);
 
@@ -105,7 +104,7 @@ export async function checkGenerationLimit(userId: string) {
     return {
         isAllowed,
         hasPaidSubscription,
-        plan: subscription?.plan,
+        plan: planName,
         generationsUsed: generationCount,
         generationsLimit:
             plan.limits.generations === Infinity ? null : plan.limits.generations,

@@ -30,7 +30,7 @@ interface Props {
 }
 
 const PlanCard = React.memo(
-    ({ plan, subscription, loading, error, isUpgrading, onUpgrade}: Props) => {
+    ({ plan, subscription, loading, error, isUpgrading, onUpgrade }: Props) => {
         const isPopular = plan.name === PLAN_ENUM.PREMIUM;
         const isCurrent = subscription?.plan === plan.name;
         const action = subscription?.hasPaidSubscription ? "Switch plan" : "Upgrade";
@@ -50,9 +50,9 @@ const PlanCard = React.memo(
                             {plan?.name?.toLowerCase()}
                         </h3>
                         {isPopular && !isCurrent && (
-                          <Badge className="bg-primary/10 text-primary text-xs">
-                            Popular
-                          </Badge> 
+                            <Badge className="bg-primary/10 text-primary text-xs">
+                                Popular
+                            </Badge>
                         )}
                         {isCurrent && (
                             <Badge className="bg-gray-200 text-gray-700 text-xs">
@@ -61,26 +61,31 @@ const PlanCard = React.memo(
                         )}
                     </div>
                     <div className="mb-4">
-                         <div className="text-base font-normal">
+                        <div className="text-base font-normal">
                             ${plan.price}
                             <span className="text-sm text-muted-foreground ml-1">
                                 per month billed
                             </span>
-                         </div>
-                         {isCurrent && (
+                        </div>
+                        {plan.description && (
+                            <div className="text-sm text-muted-foreground mt-2 mb-2">
+                                {plan.description}
+                            </div>
+                        )}
+                        {isCurrent && (
                             <div className="mb-4 text-sm text-muted-foreground">
                                 {generationsLimit === null ? (
                                     "Unlimited generations"
                                 ) : (
                                     <>
-                                    {remainingGenerations ?? 0} / {generationsLimit} generations Left
-                                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden  mt-1">
-                                        <div className="h-2 bg-orange-500 rounded-full transition-all duration-300" style={{ width: `${percentUsed}%`}} />
-                                    </div>
+                                        {remainingGenerations ?? 0} / {generationsLimit} generations Left
+                                        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden  mt-1">
+                                            <div className="h-2 bg-orange-500 rounded-full transition-all duration-300" style={{ width: `${percentUsed}%` }} />
+                                        </div>
                                     </>
                                 )}
-                                </div>
-                         )}
+                            </div>
+                        )}
                     </div>
                     {loading ? (
                         <Skeleton className="h-6 w-28 rounded-md" />
@@ -89,7 +94,7 @@ const PlanCard = React.memo(
                     ) : isCurrent && plan.name !== PLAN_ENUM.FREE ? (
                         <Button variant="outline">Manage</Button>
                     ) : UPGRADEABLE_PLANS.includes(plan.name as PaidPlanEnumType) ? (
-                        <Button 
+                        <Button
                             variant={isPopular ? "default" : "outline"}
                             className={cn("cursor-pointer", isPopular && "bg-primary hover:opacity-80 text-white")}
                             disabled={isUpgrading}

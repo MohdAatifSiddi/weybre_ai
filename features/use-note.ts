@@ -7,7 +7,7 @@ import { toast } from "sonner";
 type RequestCreateNoteType = InferRequestType<typeof api.note.create.$post>["json"];
 type ResponseCreateNoteType = InferResponseType<typeof api.note.create.$post>;
 
-type RequestUpdateNoteType =InferRequestType<(typeof api.note.update)[":id"]["$patch"]>["json"];
+type RequestUpdateNoteType = InferRequestType<(typeof api.note.update)[":id"]["$patch"]>["json"];
 
 type ResponseUpdateNoteType = InferResponseType<(typeof api.note.update)[":id"]["$patch"]>;
 
@@ -21,8 +21,10 @@ export const useCreateNote = () => {
             return await response.json();
         },
         onSuccess: (response) => {
-            const noteId = response.data.id;
-            setNoteId(noteId);
+            if (response?.data?.id) {
+                const noteId = response.data.id;
+                setNoteId(noteId);
+            }
 
             queryClient.invalidateQueries({
                 queryKey: ["notes"],
@@ -42,7 +44,7 @@ type ResponseNotesType = InferResponseType<typeof api.note.all.$get>;
 export const useNotes = (page: number = 1, limit: number = 20) => {
     return useQuery<ResponseNotesType>({
         queryKey: ["notes", page, limit],
-        queryFn: async() => {
+        queryFn: async () => {
             const res = await api.note.all.$get({
                 query: { page, limit },
             });
@@ -81,6 +83,7 @@ export const useUpdateNote = () => {
                 param: { id },
                 json,
             });
+            return await response.json();
         },
         onSuccess: () => {
             toast.success("Changes Saved!");

@@ -9,14 +9,14 @@ type ResponseUpgradeSubscriptionType = InferResponseType<typeof api.subscription
 
 
 export const useUpgradeSubscription = () => {
-    return useMutation<RequestUpgradeSubscriptionType, Error, RequestUpgradeSubscriptionType>({
+    return useMutation<ResponseUpgradeSubscriptionType, Error, RequestUpgradeSubscriptionType>({
         mutationFn: async (json) => {
             const response = await api.subscription.upgrade.$post({ json });
             return await response.json();
         },
-        onSuccess: (data) => {
-            if (data.checkoutUrl) {
-                window.location.href = data.checkoutUrl;
+        onSuccess: (response) => {
+            if (response.checkoutUrl) {
+                window.location.href = response.checkoutUrl;
             }
         },
         onError: (error) => {

@@ -3,7 +3,7 @@ import { tool } from "ai";
 import { title } from "process";
 import z, { success } from "zod";
 
-const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
+const tvly = process.env.TAVILY_API_KEY ? tavily({ apiKey: process.env.TAVILY_API_KEY }) : null;
 
 
 export const webSearch = () => {
@@ -13,6 +13,13 @@ export const webSearch = () => {
             query: z.string().describe("Search web query"),
         }),
         execute: async ({ query }) => {
+            if (!tvly) {
+                return {
+                    success: false,
+                    message: "Web search failed",
+                    error: "TAVILY_API_KEY is not configured",
+                };
+            }
             try {
                 const response = await tvly.search(query, {
                     includeAnswer: true,
@@ -20,18 +27,18 @@ export const webSearch = () => {
                     includeImages: false,
                     maxResults: 3,
                 });
-            const results = (response.results || []).map((r: any) => ({
-                title: r.title,
-                url: r.url,
-                content: r.content,
-                favicon: r.favicon || null,
-            }));
-            return {
-                success: true,
-                answer: response.answer || "No summary avilable",
-                results: results,
-                response_time: response.responseTime,
-            };
+                const results = (response.results || []).map((r: any) => ({
+                    title: r.title,
+                    url: r.url,
+                    content: r.content,
+                    favicon: r.favicon || null,
+                }));
+                return {
+                    success: true,
+                    answer: response.answer || "No summary avilable",
+                    results: results,
+                    response_time: response.responseTime,
+                };
             } catch (error) {
                 return {
                     success: false,
