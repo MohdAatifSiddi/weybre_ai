@@ -11,7 +11,7 @@ const getBaseUrl = () => {
 };
 
 export const client = hc<AppType>(getBaseUrl(), {
-    fetch: (input, init) =>
+    fetch: (input: RequestInfo | URL, init?: RequestInit) =>
         fetch(input, {
             ...init,
             credentials: "include",
