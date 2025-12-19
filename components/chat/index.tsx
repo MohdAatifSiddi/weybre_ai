@@ -42,6 +42,24 @@ const ChatInterface = (props: Props) => {
         transport: new DefaultChatTransport({
             api: "/api/chat",
             prepareSendMessagesRequest({ messages, id, body }) {
+                // #region agent log
+                fetch("http://127.0.0.1:7242/ingest/9a8c17d4-8f35-4130-80ad-0b6a5c7837e1", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        sessionId: "debug-session",
+                        runId: "run1",
+                        hypothesisId: "H-client",
+                        location: "components/chat/index.tsx:prepareSendMessagesRequest",
+                        message: "Client sending chat request",
+                        data: {
+                            chatId: id,
+                            messagesCount: messages.length,
+                        },
+                        timestamp: Date.now(),
+                    }),
+                }).catch(() => {});
+                // #endregion
                 return {
                     body: {
                         id,

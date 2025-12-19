@@ -129,7 +129,11 @@ const SignInForm = () => {
                   "Sign In"
                 )}
               </Button>
-
+                <p className="text-sm text-center text-muted-foreground">
+                <Link href="/auth/forgot-password" className="underline hover:text-primary">
+                   Forgot password?
+                </Link>
+                </p>
               <p className="text-sm text-center text-muted-foreground">
                 Don’t have an account?{" "}
                 <Link href="/auth/sign-up" className="underline hover:text-primary">

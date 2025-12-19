@@ -1,5 +1,13 @@
 import { ExternalLink } from "lucide-react";
 import { FC, memo } from "react";
+import {
+  ChainOfThought,
+  ChainOfThoughtContent,
+  ChainOfThoughtHeader,
+  ChainOfThoughtSearchResult,
+  ChainOfThoughtSearchResults,
+  ChainOfThoughtStep,
+} from "../ai-elements/chain-of-thought";
 
 interface Props {
   type: "webSearch" | "extractWebUrl";
@@ -10,52 +18,78 @@ interface Props {
 export const SearchExtractPreview: FC<Props> = memo(
   ({ type, input, output }) => {
     const results = output?.results || [];
+    const hasError = output?.success === false;
+    const errorMessage = output?.error || output?.message || "Unknown error";
 
     const headerText =
       type === "webSearch"
         ? `Query: "${input?.query}"`
         : `URLs: "${input?.urls?.join(", ") || ""}"`;
 
-    const countText =
-      type === "webSearch"
+    const countText = hasError
+      ? `Error: ${errorMessage}`
+      : type === "webSearch"
         ? `Used ${results.length} sources`
         : `Found ${results.length} pages`;
 
     const itemText = (item: any) =>
       type === "webSearch" ? item.title || "No title" : item.url || "No URL";
 
+    const getHostname = (url?: string) => {
+      if (!url) return "unknown";
+      try {
+        return new URL(url).hostname;
+      } catch {
+        return url;
+      }
+    };
+
     return (
-      <div className="w-full border border-border/40 rounded-lg py-3 px-1.5">
-        <p>{headerText}</p>
-
-        <div className="mt-2 pl-2">
-          <p className="font-normal text-sm text-blue-500">{countText}</p>
-
-          <ul className="list-disc pl-0 pb-2 space-y-1 max-h-48 overflow-y-auto">
-            {Array.isArray(results) &&
-              results.map((item: any, i: number) => (
-                <li key={i}>
+      <ChainOfThought className="w-full border border-border/40 rounded-lg py-3 px-3">
+        <ChainOfThoughtHeader>{headerText}</ChainOfThoughtHeader>
+        <ChainOfThoughtContent>
+          <ChainOfThoughtStep
+            label={
+              type === "webSearch"
+                ? `Searching the web for "${input?.query}"`
+                : `Fetching and extracting content from URLs`
+            }
+            status="complete"
+          />
+          <ChainOfThoughtStep
+            label={countText}
+            status="complete"
+          >
+            {Array.isArray(results) && results.length > 0 && (
+              <ChainOfThoughtSearchResults>
+                {results.map((item: any, i: number) => (
                   <a
+                    key={i}
                     href={item?.url}
                     rel="noreferrer"
                     target="_blank"
-                    className="flex items-center gap-2 w-full hover:underline text-blue-500 hover:text-blue-400"
                   >
-                    {item?.favicon && (
-                      <img
-                        src={item.favicon}
-                        alt="favicon"
-                        className="w-4 h-4 rounded-sm"
-                      />
-                    )}
-                    <span className="text-[13px]">{itemText(item)}</span>
-                    <ExternalLink className="w-4 h-4" />
+                    <ChainOfThoughtSearchResult>
+                      {item?.favicon && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={item.favicon}
+                          alt="favicon"
+                          className="h-3 w-3 rounded-sm"
+                        />
+                      )}
+                      <span className="text-[11px]">
+                        {getHostname(item?.url)}
+                      </span>
+                      <ExternalLink className="h-3 w-3" />
+                    </ChainOfThoughtSearchResult>
                   </a>
-                </li>
-              ))}
-          </ul>
-        </div>
-      </div>
+                ))}
+              </ChainOfThoughtSearchResults>
+            )}
+          </ChainOfThoughtStep>
+        </ChainOfThoughtContent>
+      </ChainOfThought>
     );
   }
 );

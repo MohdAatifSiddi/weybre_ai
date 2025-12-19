@@ -16,13 +16,16 @@ export const searchNote = (userId: string) =>
         execute: async({ query, limit = 10}) => {
             try {
                 const notes = await prisma.note.findMany({
-                    where: {userId,
+                    where: {
+                        userId,
                         OR: [
                             {
                                 title: {
                                     contains: query,
                                     mode: "insensitive",
                                 },
+                            },
+                            {
                                 content: {
                                     contains: query,
                                     mode: "insensitive",

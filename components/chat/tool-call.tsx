@@ -1,11 +1,17 @@
-import { Output, ToolUIPart } from "ai";
+import { ToolUIPart } from "ai";
 import React, { useEffect, useState } from "react";
 import { getToolStatus } from "./tool-status";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible";
-import { ChevronDownIcon, LoaderIcon, LucideIcon } from "lucide-react";
+import { LoaderIcon, LucideIcon } from "lucide-react";
 import { ToolTypeEnum } from "@/lib/ai/tools/constant";
 import { NoteCardPreview, NoteItemPreview } from "./tool-note-preview";
 import { SearchExtractPreview } from "./tool-search-extract-preview";
+import {
+  Tool as AITool,
+  ToolHeader as AIToolHeader,
+  ToolContent as AIToolContent,
+  ToolInput as AIToolInput,
+  ToolOutput as AIToolOutput,
+} from "../ai-elements/tool";
 
 const formatToolName = (type?: string | null) => {
   // Ensure type is defined and is a string before calling replace
@@ -42,33 +48,6 @@ const ToolLoadingIndicator = React.memo(
 
 ToolLoadingIndicator.displayName = "ToolLoadingIndicator";
 
-const ToolHeader = React.memo(
-  ({
-    text,
-    icon: Icon,
-    collapsible,
-  }: {
-    text: string;
-    icon?: LucideIcon;
-    collapsible?: boolean;
-  }) => {
-    const Wrapper = collapsible ? CollapsibleTrigger : "button";
-    return (
-      <Wrapper className="flex items-center justify-between w-full rounded-md hover:bg-muted/50 py-2 px-2 text-muted-foreground transition-colors border-0 group">
-        <div className="flex items-center gap-2">
-          {Icon && <Icon className="size-4 text-muted-foreground" />}
-          <span>{text}</span>
-        </div>
-        {collapsible && (
-          <ChevronDownIcon className="size-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
-        )}
-      </Wrapper>
-    );
-  }
-);
-
-ToolHeader.displayName = "ToolHeader";
-
 const toolRenders: Record<ToolUIPart["type"], (output: any, input: any) => React.ReactNode> = {
   [ToolTypeEnum.CreateNote]: (output) => (
     <div className="mb-1.5 mt-1">
@@ -95,6 +74,15 @@ const toolRenders: Record<ToolUIPart["type"], (output: any, input: any) => React
     return (
       <SearchExtractPreview
         type="extractWebUrl"
+        input={input}
+        output={output}
+      />
+    );
+  },
+  [ToolTypeEnum.WebSearch]: (output, input) => {
+    return (
+      <SearchExtractPreview
+        type="webSearch"
         input={input}
         output={output}
       />
@@ -149,25 +137,22 @@ const ToolCall: React.FC<ToolCallProps> = ({
   if (isLoading && (state === "input-streaming" || state === "input-available")) {
     return <ToolLoadingIndicator loadingText={text} />;
   }
-  if (type === ToolTypeEnum.CreateNote) {
-    return (
-      <>
-        <ToolHeader text={text} icon={icon} collapsible={false} />
-        <div>{renderOutput()}</div>
-      </>
-    );
-  }
 
   return (
-    <>
-      <Collapsible defaultOpen={true}>
-        <ToolHeader text={text} icon={icon} collapsible />
-        <CollapsibleContent>
-          {renderOutput()}
-        </CollapsibleContent>
-      </Collapsible>
-    </>
-  )
-}
+    <AITool defaultOpen={type === ToolTypeEnum.CreateNote}>
+      <AIToolHeader
+        title={toolName}
+        type={type}
+        state={state}
+        className="border-b"
+      />
+      <AIToolContent>
+        <AIToolInput input={input} />
+        <AIToolOutput output={output} errorText={errorText} />
+        <div className="mt-2">{renderOutput()}</div>
+      </AIToolContent>
+    </AITool>
+  );
+};
 
 export default ToolCall;

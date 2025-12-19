@@ -105,7 +105,8 @@ const ChatInput: FC<Props> =  ({
             {
                 body: {
                     selectedModelId: selectedModelId,
-                    selectedToolName: selectedTool?.name || null,
+                    // send the internal tool name (e.g. "webSearch"), not the display label
+                    selectedToolName: selectedTool?.toolName || null,
                 },
             }
         );

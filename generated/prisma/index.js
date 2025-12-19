@@ -239,7 +239,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\mekot\\Desktop\\weybre_ai\\generated\\prisma",
+      "value": "C:\\Users\\mekot\\Desktop\\Computer Science\\weybre_ai\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -253,7 +253,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\mekot\\Desktop\\weybre_ai\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\mekot\\Desktop\\Computer Science\\weybre_ai\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -267,6 +267,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

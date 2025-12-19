@@ -24,7 +24,6 @@ const Header = ({ title, showActions = false }: Props) => {
 
     return (
         <header className="fixed top-0 inset-0 z-[9] h-[40px] flex items-center px-2 md:px-8 py-1 bg-background/20 backdrop-blur-sm">
-            {(!open || isMobile) && <SidebarTrigger className="h-10" />}
             {!showActions && title && (
                 <div className={cn("pt-5", open && "w-full !max-w-full lg:p-[10px_0_0_250px]")}>
                     <h2 className="text-x1 lg:text-2xl font-semibold">{title}</h2>
