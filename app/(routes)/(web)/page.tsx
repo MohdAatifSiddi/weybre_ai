@@ -1,5 +1,6 @@
 "use client"
-
+import Cal, { getCalApi } from "@calcom/embed-react";
+import { useEffect } from "react";
 import { useCallback } from 'react';
 import Navbar from "./_common/nav-bar";
 import { 
@@ -17,6 +18,31 @@ export default function Home() {
     window.location.href = '/book-demo';
   }, []);
 
+    /* First make sure that you have installed the package */
+
+/* If you are using yarn */
+// yarn add @calcom/embed-react
+
+/* If you are using npm */
+// npm install @calcom/embed-react
+  
+
+function BooDemo() {
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({"namespace":"book-demo"});
+      cal("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    })();
+  }, [])
+  return <Cal namespace="book-demo"
+    calLink="jobs-ai/book-demo"
+    style={{width:"100%",height:"100%",overflow:"scroll"}}
+    config={{"layout":"month_view"}}
+    
+    
+  />;
+};
+  
   return (
     <main className="min-h-dvh w-full relative bg-background text-foreground">
       {/* Background */}
@@ -49,7 +75,7 @@ export default function Home() {
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <button 
-              onClick={handleRequestDemo}
+              onClick={BooDemo}
               className="px-8 py-4 bg-primary text-primary-foreground text-lg font-semibold rounded-xl hover:bg-primary/90 transition-all"
               aria-label="Request a demo"
             >
@@ -264,7 +290,7 @@ export default function Home() {
               Join 100+ leading law firms using Weybre AI to work faster, smarter, and more securely.
             </p>
             <button 
-              onClick={handleRequestDemo}
+              onClick={BooDemo}
               className="px-12 py-5 bg-primary text-primary-foreground text-lg font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
               aria-label="Request a demo"
             >
