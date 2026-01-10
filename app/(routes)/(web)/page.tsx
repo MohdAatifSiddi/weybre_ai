@@ -279,7 +279,6 @@ function BooDemo() {
             </div>
           </div>
         </section>
-
         {/* FINAL CTA */}
         <section className="py-24 text-center px-6 bg-gradient-to-b from-background to-muted/50">
           <div className="max-w-3xl mx-auto">
