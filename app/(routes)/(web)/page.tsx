@@ -1,6 +1,5 @@
 "use client"
-import Cal, { getCalApi } from "@calcom/embed-react";
-import { useEffect } from "react";
+
 import { useCallback } from 'react';
 import Navbar from "./_common/nav-bar";
 import { 
@@ -17,22 +16,11 @@ export default function Home() {
   const handleRequestDemo = useCallback(() => {
     window.location.href = '/book-demo';
   }, []);
-function BooDemo() {
-  useEffect(() => {
-    (async function () {
-      const cal = await getCalApi({"namespace":"book-demo"});
-      cal("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-    })();
+
+  const calRequestDemo = useCallback(() =>  {
+    window.location.href = 'https://cal.com/jobs-ai/book-demo?overlayCalendar=true'
   }, [])
-  return <Cal namespace="book-demo"
-    calLink="jobs-ai/book-demo"
-    style={{width:"100%",height:"100%",overflow:"scroll"}}
-    config={{"layout":"month_view"}}
-    
-    
-  />;
-};
-  
+
   return (
     <main className="min-h-dvh w-full relative bg-background text-foreground">
       {/* Background */}
@@ -65,7 +53,7 @@ function BooDemo() {
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <button 
-              onClick={BooDemo}
+              onClick={calRequestDemo}
               className="px-8 py-4 bg-primary text-primary-foreground text-lg font-semibold rounded-xl hover:bg-primary/90 transition-all"
               aria-label="Request a demo"
             >
@@ -269,6 +257,7 @@ function BooDemo() {
             </div>
           </div>
         </section>
+
         {/* FINAL CTA */}
         <section className="py-24 text-center px-6 bg-gradient-to-b from-background to-muted/50">
           <div className="max-w-3xl mx-auto">
@@ -279,7 +268,7 @@ function BooDemo() {
               Join 100+ leading law firms using Weybre AI to work faster, smarter, and more securely.
             </p>
             <button 
-              onClick={BooDemo}
+              onClick={calRequestDemo}
               className="px-12 py-5 bg-primary text-primary-foreground text-lg font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
               aria-label="Request a demo"
             >
