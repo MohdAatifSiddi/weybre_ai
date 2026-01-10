@@ -268,7 +268,7 @@ export default function Home() {
               Join 100+ leading law firms using Weybre AI to work faster, smarter, and more securely.
             </p>
             <button 
-              onClick={calRequestDemo}
+              onClick={handleRequestDemo}
               className="px-12 py-5 bg-primary text-primary-foreground text-lg font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
               aria-label="Request a demo"
             >
