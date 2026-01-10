@@ -319,9 +319,9 @@ export default function Home() {
             <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
               <p>© 2024 Weybre AI. All rights reserved.</p>
               <div className="flex gap-6">
-                <a href="#" className="hover:text-foreground">LinkedIn</a>
-                <a href="#" className="hover:text-foreground">Twitter</a>
-                <a href="#" className="hover:text-foreground">Email</a>
+                <a href="https://www.linkedin.com/company/weybre-ai" className="hover:text-foreground">LinkedIn</a>
+                <a href="https://x.com/weybre_app" className="hover:text-foreground">Twitter</a>
+                <a href="mailto:aatif@weybre.com" className="hover:text-foreground">Email</a>
               </div>
             </div>
           </div>
