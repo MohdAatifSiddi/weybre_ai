@@ -98,14 +98,6 @@ function Navbar() {
           >
             Book Demo
           </Link>
-          <Link
-            href="/auth/sign-up"
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition text-sm"
-            rel="noopener noreferrer"
-          >
-            Get Started
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
       </nav>
 
@@ -148,15 +140,6 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link
-                href="/auth/sign-up"
-                className="flex items-center justify-start gap-2 py-2 text-primary font-semibold"
-                onClick={() => setIsMobileOpen(false)}
-                rel="noopener noreferrer"
-              >
-                Get Started
-                <ArrowRight className="h-4 w-4" />
-              </Link>
             </li>
           </ul>
         </div>

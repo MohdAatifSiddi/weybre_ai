@@ -1,6 +1,5 @@
 import Logo from "@/components/logo";
 import React from "react";
-import SignUpForm from "../_common/signup-form";
 import SignInForm from "../_common/signin-form";
 
 const Page = () => {
